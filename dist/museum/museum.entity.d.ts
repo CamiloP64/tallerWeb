@@ -5,6 +5,7 @@ export declare class MuseumEntity {
     name: string;
     description: string;
     address: string;
+    foundedBefore: number;
     city: string;
     image: string;
     exhibitions: ExhibitionEntity[];

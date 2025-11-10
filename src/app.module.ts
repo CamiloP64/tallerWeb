@@ -29,7 +29,7 @@ import { MuseumArtworkModule } from './museum-artwork/museum-artwork.module';
       password: '1234',
       database: 'museum',
       entities: [ArtistEntity, ArtworkEntity, ExhibitionEntity, ImageEntity, MovementEntity, MuseumEntity, SponsorEntity],
-      dropSchema: true,
+      dropSchema: false,
       synchronize: true,
     }),
     MuseumArtworkModule,

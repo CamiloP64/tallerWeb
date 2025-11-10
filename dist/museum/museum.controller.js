@@ -15,38 +15,39 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MuseumController = void 0;
 const common_1 = require("@nestjs/common");
 const class_transformer_1 = require("class-transformer");
-const business_errors_interceptor_1 = require("../shared/interceptors/business-errors.interceptor");
-const museum_dto_1 = require("./museum.dto");
-const museum_entity_1 = require("./museum.entity");
 const museum_service_1 = require("./museum.service");
+const museum_entity_1 = require("./museum.entity");
+const museums_query_dto_1 = require("./museums-query.dto");
+const business_errors_interceptor_1 = require("../shared/interceptors/business-errors.interceptor");
 let MuseumController = class MuseumController {
     museumService;
     constructor(museumService) {
         this.museumService = museumService;
     }
-    async findAll() {
-        return await this.museumService.findAll();
+    async findAll(query) {
+        return await this.museumService.findAllAndPaginate(query);
     }
     async findOne(museumId) {
         return await this.museumService.findOne(museumId);
     }
-    async create(museumDto) {
-        const museum = (0, class_transformer_1.plainToInstance)(museum_entity_1.MuseumEntity, museumDto);
+    async create(dto) {
+        const museum = (0, class_transformer_1.plainToInstance)(museum_entity_1.MuseumEntity, dto);
         return await this.museumService.create(museum);
     }
-    async update(museumId, museumDto) {
-        const museum = (0, class_transformer_1.plainToInstance)(museum_entity_1.MuseumEntity, museumDto);
+    async update(museumId, dto) {
+        const museum = (0, class_transformer_1.plainToInstance)(museum_entity_1.MuseumEntity, dto);
         return await this.museumService.update(museumId, museum);
     }
     async delete(museumId) {
-        return await this.museumService.delete(museumId);
+        await this.museumService.delete(museumId);
     }
 };
 exports.MuseumController = MuseumController;
 __decorate([
     (0, common_1.Get)(),
+    __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [museums_query_dto_1.MuseumsQueryDto]),
     __metadata("design:returntype", Promise)
 ], MuseumController.prototype, "findAll", null);
 __decorate([
@@ -60,7 +61,7 @@ __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [museum_dto_1.MuseumDto]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], MuseumController.prototype, "create", null);
 __decorate([
@@ -68,7 +69,7 @@ __decorate([
     __param(0, (0, common_1.Param)('museumId')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, museum_dto_1.MuseumDto]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], MuseumController.prototype, "update", null);
 __decorate([

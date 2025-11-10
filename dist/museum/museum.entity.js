@@ -18,6 +18,7 @@ let MuseumEntity = class MuseumEntity {
     name;
     description;
     address;
+    foundedBefore;
     city;
     image;
     exhibitions;
@@ -40,6 +41,10 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], MuseumEntity.prototype, "address", void 0);
+__decorate([
+    (0, typeorm_1.Column)('int'),
+    __metadata("design:type", Number)
+], MuseumEntity.prototype, "foundedBefore", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)

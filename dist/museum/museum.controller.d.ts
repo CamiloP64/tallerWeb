@@ -1,12 +1,20 @@
-import { MuseumDto } from './museum.dto';
-import { MuseumEntity } from './museum.entity';
 import { MuseumService } from './museum.service';
+import { MuseumEntity } from './museum.entity';
+import { MuseumsQueryDto } from './museums-query.dto';
 export declare class MuseumController {
     private readonly museumService;
     constructor(museumService: MuseumService);
-    findAll(): Promise<MuseumEntity[]>;
+    findAll(query: MuseumsQueryDto): Promise<{
+        data: MuseumEntity[];
+        meta: {
+            total: number;
+            page: number;
+            limit: number;
+            pages: number;
+        };
+    }>;
     findOne(museumId: string): Promise<MuseumEntity>;
-    create(museumDto: MuseumDto): Promise<MuseumEntity>;
-    update(museumId: string, museumDto: MuseumDto): Promise<MuseumEntity>;
+    create(dto: Partial<MuseumEntity>): Promise<MuseumEntity>;
+    update(museumId: string, dto: Partial<MuseumEntity>): Promise<MuseumEntity>;
     delete(museumId: string): Promise<void>;
 }

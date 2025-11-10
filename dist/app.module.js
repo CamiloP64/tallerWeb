@@ -40,7 +40,7 @@ exports.AppModule = AppModule = __decorate([
                 password: '1234',
                 database: 'museum',
                 entities: [artist_entity_1.ArtistEntity, artwork_entity_1.ArtworkEntity, exhibition_entity_1.ExhibitionEntity, image_entity_1.ImageEntity, movement_entity_1.MovementEntity, museum_entity_1.MuseumEntity, sponsor_entity_1.SponsorEntity],
-                dropSchema: true,
+                dropSchema: false,
                 synchronize: true,
             }),
             museum_artwork_module_1.MuseumArtworkModule,

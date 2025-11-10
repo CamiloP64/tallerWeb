@@ -1,19 +1,19 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query, UseInterceptors } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { BusinessErrorsInterceptor } from '../shared/interceptors/business-errors.interceptor';
-import { MuseumDto } from './museum.dto';
-import { MuseumEntity } from './museum.entity';
 import { MuseumService } from './museum.service';
+import { MuseumEntity } from './museum.entity';
+import { MuseumsQueryDto } from './museums-query.dto';
+import { BusinessErrorsInterceptor } from '../shared/interceptors/business-errors.interceptor';
 
 @Controller('museums')
 @UseInterceptors(BusinessErrorsInterceptor)
 export class MuseumController {
-    constructor(private readonly museumService: MuseumService) {}
+  constructor(private readonly museumService: MuseumService) {}
 
   @Get()
-  async findAll() {
-    return await this.museumService.findAll();
+  async findAll(@Query() query: MuseumsQueryDto) {
+    return await this.museumService.findAllAndPaginate(query);
   }
 
   @Get(':museumId')
@@ -22,21 +22,20 @@ export class MuseumController {
   }
 
   @Post()
-  async create(@Body() museumDto: MuseumDto) {
-    const museum: MuseumEntity = plainToInstance(MuseumEntity, museumDto);
+  async create(@Body() dto: Partial<MuseumEntity>) {
+    const museum = plainToInstance(MuseumEntity, dto);
     return await this.museumService.create(museum);
   }
 
   @Put(':museumId')
-  async update(@Param('museumId') museumId: string, @Body() museumDto: MuseumDto) {
-    const museum: MuseumEntity = plainToInstance(MuseumEntity, museumDto);
+  async update(@Param('museumId') museumId: string, @Body() dto: Partial<MuseumEntity>) {
+    const museum = plainToInstance(MuseumEntity, dto);
     return await this.museumService.update(museumId, museum);
   }
 
   @Delete(':museumId')
   @HttpCode(204)
   async delete(@Param('museumId') museumId: string) {
-    return await this.museumService.delete(museumId);
+    await this.museumService.delete(museumId);
   }
-
 }
